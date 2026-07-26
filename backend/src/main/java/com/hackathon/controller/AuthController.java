@@ -33,4 +33,10 @@ public class AuthController {
         AuthResponse response = authService.login(request);
         return ResponseEntity.ok(ApiResponse.success("Login successful", response));
     }
+
+    @org.springframework.web.bind.annotation.GetMapping("/me")
+    public ResponseEntity<ApiResponse<com.hackathon.model.User>> getCurrentUser(@org.springframework.web.bind.annotation.RequestHeader("Authorization") String authHeader) {
+        com.hackathon.model.User user = authService.getCurrentUser(authHeader);
+        return ResponseEntity.ok(ApiResponse.success("User retrieved successfully", user));
+    }
 }

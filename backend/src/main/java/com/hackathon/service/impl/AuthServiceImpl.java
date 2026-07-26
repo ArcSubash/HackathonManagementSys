@@ -93,4 +93,15 @@ public class AuthServiceImpl implements AuthService {
                 .assignedHackathons(user.getAssignedHackathons())
                 .build();
     }
+
+    @Override
+    public User getCurrentUser(String token) {
+        if (token == null || !token.startsWith("Bearer ")) {
+            throw new BadRequestException("Invalid token format");
+        }
+        String jwt = token.replace("Bearer ", "");
+        String userId = jwtUtil.extractClaim(jwt, claims -> claims.get("userId", String.class));
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new com.hackathon.exception.ResourceNotFoundException("User", "id", userId));
+    }
 }

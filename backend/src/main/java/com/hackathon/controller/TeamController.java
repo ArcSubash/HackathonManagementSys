@@ -88,6 +88,16 @@ public class TeamController {
         return ResponseEntity.ok(ApiResponse.success("Team disbanded successfully"));
     }
 
+    @DeleteMapping("/{teamId}/members/{memberId}")
+    public ResponseEntity<ApiResponse<Void>> removeMember(
+            @PathVariable String teamId,
+            @PathVariable String memberId,
+            @RequestHeader("Authorization") String authHeader) {
+        String userId = extractUserId(authHeader);
+        teamService.removeMember(teamId, userId, memberId);
+        return ResponseEntity.ok(ApiResponse.success("Team member removed successfully"));
+    }
+
     @PostMapping("/{teamId}/invite")
     public ResponseEntity<ApiResponse<Void>> inviteParticipant(
             @PathVariable String teamId,

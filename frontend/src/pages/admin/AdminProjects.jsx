@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { adminAPI } from '../../api/adminService';
-import { HiOutlineClipboardList, HiOutlineExternalLink, HiOutlineCode } from 'react-icons/hi';
+import { ClipboardList, ExternalLink, Code } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const AdminProjects = () => {
@@ -24,79 +24,65 @@ const AdminProjects = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-white">Projects</h1>
-          <p className="text-dark-400 mt-1">Review all submitted projects</p>
-        </div>
+      <div>
+        <h1 className="text-2xl font-semibold text-white">Projects</h1>
+        <p className="text-neutral-500 text-sm mt-1">Review all submitted projects</p>
       </div>
 
       <div className="card">
         {loading ? (
           <div className="flex justify-center items-center py-12">
-            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary-500"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-2 border-neutral-700 border-t-white"></div>
           </div>
         ) : projects.length === 0 ? (
           <div className="text-center py-12">
-            <HiOutlineClipboardList className="w-12 h-12 text-dark-500 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-dark-300">No Projects Found</h3>
-            <p className="text-dark-500 mt-2">No teams have submitted projects yet.</p>
+            <ClipboardList className="w-10 h-10 text-neutral-600 mx-auto mb-3" />
+            <h3 className="text-sm font-medium text-neutral-300">No projects found</h3>
+            <p className="text-neutral-500 text-sm mt-1">No teams have submitted projects yet.</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left">
+            <table className="w-full text-left text-sm">
               <thead>
-                <tr className="text-dark-400 border-b border-dark-700">
+                <tr className="text-neutral-500 border-b border-neutral-800">
                   <th className="pb-3 font-medium">Project</th>
                   <th className="pb-3 font-medium">Description</th>
                   <th className="pb-3 font-medium">Team ID</th>
                   <th className="pb-3 font-medium text-right">Links</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-dark-700">
+              <tbody className="divide-y divide-neutral-800">
                 {projects.map((project) => (
-                  <tr key={project.id} className="hover:bg-dark-800/50 transition-colors">
-                    <td className="py-4">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center border border-amber-500/20">
-                          <HiOutlineCode className="w-5 h-5 text-amber-500" />
+                  <tr key={project.id} className="hover:bg-neutral-900/50 transition-colors">
+                    <td className="py-3">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-md bg-neutral-800 border border-neutral-700 flex items-center justify-center">
+                          <Code className="w-4 h-4 text-neutral-400" />
                         </div>
                         <div>
-                          <p className="text-white font-medium">{project.title}</p>
-                          <p className="text-dark-400 text-xs">ID: {project.id}</p>
+                          <p className="text-neutral-200 font-medium">{project.title}</p>
+                          <p className="text-neutral-600 text-xs">ID: {project.id}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="py-4">
-                      <p className="text-dark-300 text-sm max-w-xs truncate" title={project.description}>
+                    <td className="py-3">
+                      <p className="text-neutral-400 text-sm max-w-xs truncate" title={project.description}>
                         {project.description}
                       </p>
                     </td>
-                    <td className="py-4">
-                      <span className="text-dark-400 text-sm font-mono">{project.teamId}</span>
+                    <td className="py-3">
+                      <span className="text-neutral-500 font-mono text-xs">{project.teamId}</span>
                     </td>
-                    <td className="py-4 text-right">
-                      <div className="flex justify-end space-x-2">
+                    <td className="py-3 text-right">
+                      <div className="flex justify-end gap-1">
                         {project.githubUrl && (
-                          <a
-                            href={project.githubUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-2 bg-dark-700 hover:bg-dark-600 rounded-lg text-dark-300 transition-colors"
-                            title="GitHub Repository"
-                          >
-                            <HiOutlineCode className="w-5 h-5" />
+                          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="p-1.5 text-neutral-500 hover:text-white hover:bg-neutral-800 rounded-md transition-colors" title="GitHub Repository">
+                            <Code className="w-4 h-4" />
                           </a>
                         )}
                         {project.demoUrl && (
-                          <a
-                            href={project.demoUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-2 bg-primary-500/10 hover:bg-primary-500/20 rounded-lg text-primary-400 transition-colors"
-                            title="Live Demo"
-                          >
-                            <HiOutlineExternalLink className="w-5 h-5" />
+                          <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="p-1.5 text-neutral-500 hover:text-blue-400 hover:bg-neutral-800 rounded-md transition-colors" title="Live Demo">
+                            <ExternalLink className="w-4 h-4" />
                           </a>
                         )}
                       </div>

@@ -124,6 +124,31 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    public void removeMember(String teamId, String leaderId, String memberId) {
+        Team team = getById(teamId);
+
+        if (!team.getLeaderId().equals(leaderId)) {
+            throw new BadRequestException("Only the team leader can remove members");
+        }
+
+        if (leaderId.equals(memberId)) {
+            throw new BadRequestException("You cannot remove yourself. Disband the team instead.");
+        }
+
+        if (!team.getMemberIds().contains(memberId)) {
+            throw new BadRequestException("User is not a member of this team");
+        }
+
+        int index = team.getMemberIds().indexOf(memberId);
+        team.getMemberIds().remove(index);
+        if (index < team.getMemberNames().size()) {
+            team.getMemberNames().remove(index);
+        }
+
+        teamRepository.save(team);
+    }
+
+    @Override
     public Team getById(String id) {
         return teamRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Team", "id", id));

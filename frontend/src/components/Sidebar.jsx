@@ -1,14 +1,14 @@
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import {
-  HiOutlineViewGrid,
-  HiOutlineLightningBolt,
-  HiOutlineUserGroup,
-  HiOutlineClipboardList,
-  HiOutlineStar,
-  HiOutlineChartBar,
-  HiOutlineUser,
-} from 'react-icons/hi';
+  LayoutDashboard,
+  Zap,
+  Users,
+  ClipboardList,
+  Star,
+  BarChart3,
+  User,
+} from 'lucide-react';
 
 const Sidebar = () => {
   const { user } = useAuth();
@@ -17,28 +17,28 @@ const Sidebar = () => {
     switch (user?.role) {
       case 'ADMIN':
         return [
-          { icon: HiOutlineViewGrid, label: 'Dashboard', path: '/admin/dashboard' },
-          { icon: HiOutlineLightningBolt, label: 'Hackathons', path: '/admin/hackathons' },
-          { icon: HiOutlineUserGroup, label: 'Participants', path: '/admin/participants' },
-          { icon: HiOutlineUserGroup, label: 'Teams', path: '/admin/teams' },
-          { icon: HiOutlineClipboardList, label: 'Projects', path: '/admin/projects' },
-          { icon: HiOutlineStar, label: 'Judges', path: '/admin/judges' },
-          { icon: HiOutlineChartBar, label: 'Leaderboard', path: '/admin/leaderboard' },
+          { icon: LayoutDashboard, label: 'Dashboard', path: '/admin/dashboard' },
+          { icon: Zap, label: 'Hackathons', path: '/admin/hackathons' },
+          { icon: Users, label: 'Participants', path: '/admin/participants' },
+          { icon: Users, label: 'Teams', path: '/admin/teams' },
+          { icon: ClipboardList, label: 'Projects', path: '/admin/projects' },
+          { icon: Star, label: 'Judges', path: '/admin/judges' },
+          { icon: BarChart3, label: 'Leaderboard', path: '/admin/leaderboard' },
         ];
       case 'PARTICIPANT':
         return [
-          { icon: HiOutlineViewGrid, label: 'Dashboard', path: '/participant/dashboard' },
-          { icon: HiOutlineLightningBolt, label: 'Hackathons', path: '/participant/hackathons' },
-          { icon: HiOutlineUserGroup, label: 'My Team', path: '/participant/team' },
-          { icon: HiOutlineClipboardList, label: 'My Project', path: '/participant/project' },
-          { icon: HiOutlineChartBar, label: 'Results', path: '/participant/results' },
-          { icon: HiOutlineUser, label: 'Profile', path: '/participant/profile' },
+          { icon: LayoutDashboard, label: 'Dashboard', path: '/participant/dashboard' },
+          { icon: Zap, label: 'Hackathons', path: '/participant/hackathons' },
+          { icon: Users, label: 'My Team', path: '/participant/team' },
+          { icon: ClipboardList, label: 'My Project', path: '/participant/project' },
+          { icon: BarChart3, label: 'Results', path: '/participant/results' },
+          { icon: User, label: 'Profile', path: '/participant/profile' },
         ];
       case 'JUDGE':
         return [
-          { icon: HiOutlineViewGrid, label: 'Dashboard', path: '/judge/dashboard' },
-          { icon: HiOutlineClipboardList, label: 'Assigned Projects', path: '/judge/projects' },
-          { icon: HiOutlineStar, label: 'Evaluations', path: '/judge/evaluations' },
+          { icon: LayoutDashboard, label: 'Dashboard', path: '/judge/dashboard' },
+          { icon: ClipboardList, label: 'Assigned Projects', path: '/judge/projects' },
+          { icon: Star, label: 'Evaluations', path: '/judge/evaluations' },
         ];
       default:
         return [];
@@ -48,29 +48,27 @@ const Sidebar = () => {
   const menuItems = getMenuItems();
 
   return (
-    <aside className="w-64 bg-dark-900/50 border-r border-dark-700/50 min-h-[calc(100vh-4rem)] hidden lg:block">
-      <div className="p-4 space-y-1">
-        {/* Role Badge */}
-        <div className="px-3 py-2 mb-4">
-          <span className="text-xs font-semibold uppercase tracking-wider text-dark-400">
-            {user?.role} Panel
+    <aside className="w-56 border-r border-neutral-800 min-h-[calc(100vh-3.5rem)] hidden lg:block bg-neutral-950">
+      <div className="p-3 space-y-0.5">
+        <div className="px-3 py-2 mb-2">
+          <span className="text-[11px] font-medium uppercase tracking-wider text-neutral-500">
+            {user?.role}
           </span>
         </div>
 
-        {/* Navigation Items */}
         {menuItems.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}
             className={({ isActive }) =>
-              `flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 group ${
+              `flex items-center gap-2.5 px-3 py-2 rounded-md text-sm transition-colors duration-100 ${
                 isActive
-                  ? 'bg-primary-600/10 text-primary-400 border border-primary-500/20'
-                  : 'text-dark-300 hover:text-dark-100 hover:bg-dark-800/50'
+                  ? 'bg-neutral-800 text-white font-medium'
+                  : 'text-neutral-400 hover:text-neutral-200 hover:bg-neutral-900'
               }`
             }
           >
-            <item.icon className="w-5 h-5 flex-shrink-0 group-hover:scale-110 transition-transform duration-200" />
+            <item.icon className="w-4 h-4 flex-shrink-0" />
             <span>{item.label}</span>
           </NavLink>
         ))}

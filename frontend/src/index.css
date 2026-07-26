@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,54 +6,47 @@
 
 @layer base {
   body {
-    @apply bg-dark-950 text-dark-100 font-sans antialiased;
+    @apply bg-neutral-950 text-neutral-200 font-sans antialiased;
+    color-scheme: dark;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2.5 px-6 rounded-lg transition-all duration-200 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-dark-900 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100;
+    @apply bg-white text-black font-medium py-2 px-4 rounded-md text-sm transition-colors duration-150 hover:bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-white/40 focus:ring-offset-2 focus:ring-offset-neutral-950 disabled:opacity-40 disabled:cursor-not-allowed;
   }
 
   .btn-secondary {
-    @apply bg-dark-700 hover:bg-dark-600 text-dark-100 font-semibold py-2.5 px-6 rounded-lg border border-dark-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-dark-500 focus:ring-offset-2 focus:ring-offset-dark-900;
+    @apply bg-transparent text-neutral-300 font-medium py-2 px-4 rounded-md text-sm border border-neutral-700 transition-colors duration-150 hover:bg-neutral-800 hover:text-white hover:border-neutral-600 focus:outline-none focus:ring-2 focus:ring-neutral-500/40;
   }
 
   .btn-danger {
-    @apply bg-red-600 hover:bg-red-700 text-white font-semibold py-2.5 px-6 rounded-lg transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-dark-900;
+    @apply bg-red-600 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors duration-150 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500/40 focus:ring-offset-2 focus:ring-offset-neutral-950;
   }
 
   .input-field {
-    @apply w-full bg-dark-800 border border-dark-600 text-dark-100 placeholder-dark-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200;
+    @apply w-full bg-neutral-950 border border-neutral-700 text-neutral-100 placeholder-neutral-500 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600/50 focus:border-blue-600 transition-colors duration-150;
   }
 
   .card {
-    @apply bg-dark-800/50 backdrop-blur-sm border border-dark-700/50 rounded-xl p-6 transition-all duration-200;
-  }
-
-  .card-hover {
-    @apply card hover:border-primary-500/30 hover:shadow-lg hover:shadow-primary-500/5;
-  }
-
-  .glass {
-    @apply bg-dark-800/30 backdrop-blur-xl border border-dark-700/30;
+    @apply bg-neutral-900 border border-neutral-800 rounded-lg p-5;
   }
 }
 
-/* Custom scrollbar */
+/* Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: theme('colors.dark.900');
+  background: #0a0a0a;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: theme('colors.dark.600');
+  background: #404040;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: theme('colors.dark.500');
+  background: #525252;
 }

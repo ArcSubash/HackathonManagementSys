@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { adminAPI } from '../../api/adminService';
-import { HiOutlineUserGroup, HiOutlineLightningBolt } from 'react-icons/hi';
+import { Users, Zap } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const AdminTeams = () => {
@@ -24,67 +24,61 @@ const AdminTeams = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-white">Teams</h1>
-          <p className="text-dark-400 mt-1">Manage all teams across the platform</p>
-        </div>
+      <div>
+        <h1 className="text-2xl font-semibold text-white">Teams</h1>
+        <p className="text-neutral-500 text-sm mt-1">Manage all teams across the platform</p>
       </div>
 
       <div className="card">
         {loading ? (
           <div className="flex justify-center items-center py-12">
-            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary-500"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-2 border-neutral-700 border-t-white"></div>
           </div>
         ) : teams.length === 0 ? (
           <div className="text-center py-12">
-            <HiOutlineUserGroup className="w-12 h-12 text-dark-500 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-dark-300">No Teams Found</h3>
-            <p className="text-dark-500 mt-2">No teams have been created yet.</p>
+            <Users className="w-10 h-10 text-neutral-600 mx-auto mb-3" />
+            <h3 className="text-sm font-medium text-neutral-300">No teams found</h3>
+            <p className="text-neutral-500 text-sm mt-1">No teams have been created yet.</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left">
+            <table className="w-full text-left text-sm">
               <thead>
-                <tr className="text-dark-400 border-b border-dark-700">
+                <tr className="text-neutral-500 border-b border-neutral-800">
                   <th className="pb-3 font-medium">Team Name</th>
                   <th className="pb-3 font-medium">Leader</th>
                   <th className="pb-3 font-medium">Members</th>
                   <th className="pb-3 font-medium">Hackathon ID</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-dark-700">
+              <tbody className="divide-y divide-neutral-800">
                 {teams.map((team) => (
-                  <tr key={team.id} className="hover:bg-dark-800/50 transition-colors">
-                    <td className="py-4">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 flex items-center justify-center border border-emerald-500/20">
-                          <span className="text-emerald-400 font-bold">
-                            {team.teamName?.substring(0, 2).toUpperCase()}
-                          </span>
+                  <tr key={team.id} className="hover:bg-neutral-900/50 transition-colors">
+                    <td className="py-3">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-md bg-neutral-800 border border-neutral-700 flex items-center justify-center text-neutral-400 text-xs font-medium">
+                          {team.teamName?.substring(0, 2).toUpperCase()}
                         </div>
                         <div>
-                          <p className="text-white font-medium">{team.teamName}</p>
-                          <p className="text-dark-400 text-xs">ID: {team.id}</p>
+                          <p className="text-neutral-200 font-medium">{team.teamName}</p>
+                          <p className="text-neutral-600 text-xs">ID: {team.id}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="py-4">
-                      <span className="text-dark-300">{team.leaderName || 'Unknown'}</span>
-                    </td>
-                    <td className="py-4">
-                      <div className="flex -space-x-2">
+                    <td className="py-3 text-neutral-400">{team.leaderName || 'Unknown'}</td>
+                    <td className="py-3">
+                      <div className="flex -space-x-1.5">
                         {team.memberNames?.map((memberName, i) => (
-                          <div key={i} className="w-8 h-8 rounded-full bg-dark-700 border-2 border-dark-900 flex items-center justify-center text-xs font-medium text-white" title={memberName}>
+                          <div key={i} className="w-7 h-7 rounded-full bg-neutral-800 border-2 border-neutral-925 flex items-center justify-center text-xs font-medium text-neutral-400" title={memberName}>
                             {memberName.charAt(0).toUpperCase()}
                           </div>
                         ))}
                       </div>
                     </td>
-                    <td className="py-4">
-                      <div className="flex items-center space-x-2 text-dark-400">
-                        <HiOutlineLightningBolt className="w-4 h-4 text-primary-500" />
-                        <span className="text-sm font-mono">{team.hackathonId}</span>
+                    <td className="py-3">
+                      <div className="flex items-center gap-1.5 text-neutral-500">
+                        <Zap className="w-3.5 h-3.5" />
+                        <span className="font-mono text-xs">{team.hackathonId}</span>
                       </div>
                     </td>
                   </tr>

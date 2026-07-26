@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { authAPI } from '../../api/authService';
 import { getDashboardPath } from '../../router/ProtectedRoute';
-import { HiOutlineCode, HiOutlineMail, HiOutlineLockClosed, HiOutlineUser, HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
+import { Terminal, Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
 import toast, { Toaster } from 'react-hot-toast';
 
 const Register = () => {
@@ -13,7 +13,6 @@ const Register = () => {
   const { login, isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
 
-  // Redirect if already logged in
   useEffect(() => {
     if (isAuthenticated && user) {
       navigate(getDashboardPath(user.role));
@@ -54,63 +53,23 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-dark-950 flex">
+    <div className="min-h-screen bg-neutral-950 flex items-center justify-center px-4">
       <Toaster position="top-right" />
 
-      {/* Left Panel - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary-900 via-dark-900 to-dark-950 items-center justify-center p-12 relative overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+      <div className="w-full max-w-sm">
+        <div className="flex flex-col items-center mb-8">
+          <div className="w-10 h-10 border border-neutral-700 rounded-lg flex items-center justify-center mb-4">
+            <Terminal className="w-5 h-5 text-neutral-300" />
+          </div>
+          <h1 className="text-xl font-semibold text-white">Create your account</h1>
         </div>
 
-        <div className="relative z-10 text-center max-w-md">
-          <div className="w-20 h-20 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-primary-500/30">
-            <HiOutlineCode className="w-10 h-10 text-white" />
-          </div>
-          <h1 className="text-4xl font-bold text-white mb-4">
-            Join the <span className="bg-gradient-to-r from-primary-400 to-purple-400 bg-clip-text text-transparent">Community</span>
-          </h1>
-          <p className="text-dark-300 text-lg leading-relaxed">
-            Create your account and start participating in exciting hackathons. Build, innovate, and compete!
-          </p>
-
-          <div className="mt-10 grid grid-cols-3 gap-4">
-            {[
-              { number: '500+', label: 'Hackers' },
-              { number: '50+', label: 'Events' },
-              { number: '200+', label: 'Projects' },
-            ].map((stat, i) => (
-              <div key={i} className="card text-center">
-                <p className="text-2xl font-bold text-primary-400">{stat.number}</p>
-                <p className="text-xs text-dark-400 mt-1">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Right Panel - Registration Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
-        <div className="w-full max-w-md animate-slide-up">
-          <div className="lg:hidden flex items-center space-x-2 justify-center mb-8">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-lg flex items-center justify-center">
-              <HiOutlineCode className="w-6 h-6 text-white" />
-            </div>
-            <span className="text-xl font-bold text-white">HackManager</span>
-          </div>
-
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-white">Create account</h2>
-            <p className="text-dark-400 mt-2">Register as a participant to get started</p>
-          </div>
-
+        <div className="card">
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Name Field */}
             <div>
-              <label className="block text-sm font-medium text-dark-300 mb-1.5">Full Name</label>
+              <label className="block text-sm font-medium text-neutral-300 mb-1.5">Full name</label>
               <div className="relative">
-                <HiOutlineUser className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-dark-400" />
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
                 <input
                   type="text"
                   name="name"
@@ -118,16 +77,15 @@ const Register = () => {
                   onChange={handleChange}
                   placeholder="John Doe"
                   required
-                  className="input-field pl-10"
+                  className="input-field pl-9"
                 />
               </div>
             </div>
 
-            {/* Email Field */}
             <div>
-              <label className="block text-sm font-medium text-dark-300 mb-1.5">Email</label>
+              <label className="block text-sm font-medium text-neutral-300 mb-1.5">Email address</label>
               <div className="relative">
-                <HiOutlineMail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-dark-400" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
                 <input
                   type="email"
                   name="email"
@@ -135,16 +93,15 @@ const Register = () => {
                   onChange={handleChange}
                   placeholder="you@example.com"
                   required
-                  className="input-field pl-10"
+                  className="input-field pl-9"
                 />
               </div>
             </div>
 
-            {/* Password Field */}
             <div>
-              <label className="block text-sm font-medium text-dark-300 mb-1.5">Password</label>
+              <label className="block text-sm font-medium text-neutral-300 mb-1.5">Password</label>
               <div className="relative">
-                <HiOutlineLockClosed className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-dark-400" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   name="password"
@@ -153,23 +110,22 @@ const Register = () => {
                   placeholder="••••••••"
                   required
                   minLength={6}
-                  className="input-field pl-10 pr-10"
+                  className="input-field pl-9 pr-9"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-dark-400 hover:text-dark-200 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-300 transition-colors"
                 >
-                  {showPassword ? <HiOutlineEyeOff className="w-5 h-5" /> : <HiOutlineEye className="w-5 h-5" />}
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
             </div>
 
-            {/* Confirm Password */}
             <div>
-              <label className="block text-sm font-medium text-dark-300 mb-1.5">Confirm Password</label>
+              <label className="block text-sm font-medium text-neutral-300 mb-1.5">Confirm password</label>
               <div className="relative">
-                <HiOutlineLockClosed className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-dark-400" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   name="confirmPassword"
@@ -178,32 +134,31 @@ const Register = () => {
                   placeholder="••••••••"
                   required
                   minLength={6}
-                  className="input-field pl-10"
+                  className="input-field pl-9"
                 />
               </div>
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading}
-              className="btn-primary w-full flex items-center justify-center space-x-2 mt-2"
+              className="btn-primary w-full flex items-center justify-center"
             >
               {loading ? (
-                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                <div className="w-4 h-4 border-2 border-neutral-400 border-t-black rounded-full animate-spin"></div>
               ) : (
-                <span>Create Account</span>
+                'Create account'
               )}
             </button>
           </form>
-
-          <p className="text-center text-dark-400 mt-6">
-            Already have an account?{' '}
-            <Link to="/login" className="text-primary-400 hover:text-primary-300 font-medium transition-colors">
-              Sign in
-            </Link>
-          </p>
         </div>
+
+        <p className="text-center text-neutral-500 text-sm mt-4">
+          Already have an account?{' '}
+          <Link to="/login" className="text-blue-500 hover:text-blue-400 transition-colors">
+            Sign in
+          </Link>
+        </p>
       </div>
     </div>
   );

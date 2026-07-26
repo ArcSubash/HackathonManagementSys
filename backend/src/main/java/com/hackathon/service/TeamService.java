@@ -13,6 +13,8 @@ public interface TeamService {
 
     Team leaveTeam(String teamId, String userId);
 
+    void removeMember(String teamId, String leaderId, String memberId);
+
     Team getById(String id);
 
     List<Team> getByHackathonId(String hackathonId);

@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { authAPI } from '../api/authService';
 
 const AuthContext = createContext(null);
 
@@ -44,6 +45,14 @@ export const AuthProvider = ({ children }) => {
 
       setToken(storedToken);
       setUser(parsedUser);
+
+      // Fetch fresh profile in background to get latest assignments
+      authAPI.getMe().then(res => {
+        if (res.data?.data) {
+          setUser(res.data.data);
+          localStorage.setItem('user', JSON.stringify(res.data.data));
+        }
+      }).catch(err => console.error("Failed to refresh user profile"));
     }
     setLoading(false);
   }, []);

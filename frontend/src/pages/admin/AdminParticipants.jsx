@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { adminAPI } from '../../api/adminService';
-import { HiOutlineUserGroup, HiOutlineMail, HiOutlinePencilAlt, HiOutlineKey, HiOutlineTrash, HiOutlineX } from 'react-icons/hi';
+import { Users, Mail, Pencil, KeyRound, Trash2, X } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const AdminParticipants = () => {
   const [participants, setParticipants] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Modals state
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [pwdModalOpen, setPwdModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -78,67 +77,61 @@ const AdminParticipants = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-white">Participants</h1>
-          <p className="text-dark-400 mt-1">Manage all registered participants</p>
-        </div>
+      <div>
+        <h1 className="text-2xl font-semibold text-white">Participants</h1>
+        <p className="text-neutral-500 text-sm mt-1">Manage all registered participants</p>
       </div>
 
       <div className="card">
         {loading ? (
           <div className="flex justify-center items-center py-12">
-            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary-500"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-2 border-neutral-700 border-t-white"></div>
           </div>
         ) : participants.length === 0 ? (
           <div className="text-center py-12">
-            <HiOutlineUserGroup className="w-12 h-12 text-dark-500 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-dark-300">No Participants Found</h3>
-            <p className="text-dark-500 mt-2">No one has registered as a participant yet.</p>
+            <Users className="w-10 h-10 text-neutral-600 mx-auto mb-3" />
+            <h3 className="text-sm font-medium text-neutral-300">No participants found</h3>
+            <p className="text-neutral-500 text-sm mt-1">No one has registered as a participant yet.</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left">
+            <table className="w-full text-left text-sm">
               <thead>
-                <tr className="text-dark-400 border-b border-dark-700">
+                <tr className="text-neutral-500 border-b border-neutral-800">
                   <th className="pb-3 font-medium">Name</th>
                   <th className="pb-3 font-medium">Email</th>
                   <th className="pb-3 font-medium">ID</th>
                   <th className="pb-3 font-medium text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-dark-700">
+              <tbody className="divide-y divide-neutral-800">
                 {participants.map((user) => (
-                  <tr key={user.id} className="hover:bg-dark-800/50 transition-colors">
-                    <td className="py-4">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500/20 to-purple-500/20 flex items-center justify-center border border-primary-500/20">
-                          <span className="text-primary-400 font-bold">
-                            {user.name.charAt(0).toUpperCase()}
-                          </span>
+                  <tr key={user.id} className="hover:bg-neutral-900/50 transition-colors">
+                    <td className="py-3">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-full bg-neutral-800 border border-neutral-700 flex items-center justify-center text-neutral-400 text-xs font-medium">
+                          {user.name.charAt(0).toUpperCase()}
                         </div>
-                        <div>
-                          <p className="text-white font-medium">{user.name}</p>
-                        </div>
+                        <span className="text-neutral-200 font-medium">{user.name}</span>
                       </div>
                     </td>
-                    <td className="py-4">
-                      <div className="flex items-center space-x-2 text-dark-300">
-                        <HiOutlineMail className="w-4 h-4" />
+                    <td className="py-3">
+                      <div className="flex items-center gap-1.5 text-neutral-400">
+                        <Mail className="w-3.5 h-3.5" />
                         <span>{user.email}</span>
                       </div>
                     </td>
-                    <td className="py-4 text-dark-400 text-sm">{user.id}</td>
-                    <td className="py-4 text-right">
-                      <div className="flex justify-end space-x-2">
-                        <button onClick={() => openEditModal(user)} className="p-2 bg-dark-700 hover:bg-dark-600 rounded-lg text-dark-300 transition-colors" title="Edit User">
-                          <HiOutlinePencilAlt className="w-5 h-5" />
+                    <td className="py-3 text-neutral-500 font-mono text-xs">{user.id}</td>
+                    <td className="py-3 text-right">
+                      <div className="flex justify-end gap-1">
+                        <button onClick={() => openEditModal(user)} className="p-1.5 text-neutral-500 hover:text-white hover:bg-neutral-800 rounded-md transition-colors" title="Edit User">
+                          <Pencil className="w-4 h-4" />
                         </button>
-                        <button onClick={() => openPwdModal(user)} className="p-2 bg-amber-500/10 hover:bg-amber-500/20 rounded-lg text-amber-500 transition-colors" title="Change Password">
-                          <HiOutlineKey className="w-5 h-5" />
+                        <button onClick={() => openPwdModal(user)} className="p-1.5 text-neutral-500 hover:text-amber-400 hover:bg-neutral-800 rounded-md transition-colors" title="Change Password">
+                          <KeyRound className="w-4 h-4" />
                         </button>
-                        <button onClick={() => handleDeleteUser(user.id)} className="p-2 bg-red-500/10 hover:bg-red-500/20 rounded-lg text-red-500 transition-colors" title="Delete User">
-                          <HiOutlineTrash className="w-5 h-5" />
+                        <button onClick={() => handleDeleteUser(user.id)} className="p-1.5 text-neutral-500 hover:text-red-400 hover:bg-neutral-800 rounded-md transition-colors" title="Delete User">
+                          <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
                     </td>
@@ -152,32 +145,32 @@ const AdminParticipants = () => {
 
       {/* Edit User Modal */}
       {editModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-          <div className="bg-dark-900 border border-dark-700 rounded-xl w-full max-w-md shadow-2xl overflow-hidden">
-            <div className="flex justify-between items-center p-6 border-b border-dark-700">
-              <h3 className="text-xl font-bold text-white">Edit User</h3>
-              <button onClick={() => setEditModalOpen(false)} className="text-dark-400 hover:text-white transition-colors">
-                <HiOutlineX className="w-6 h-6" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+          <div className="bg-neutral-900 border border-neutral-800 rounded-lg w-full max-w-md overflow-hidden">
+            <div className="flex justify-between items-center px-5 py-4 border-b border-neutral-800">
+              <h3 className="text-base font-semibold text-white">Edit User</h3>
+              <button onClick={() => setEditModalOpen(false)} className="text-neutral-500 hover:text-white transition-colors">
+                <X className="w-5 h-5" />
               </button>
             </div>
-            <form onSubmit={handleEditSubmit} className="p-6 space-y-4">
+            <form onSubmit={handleEditSubmit} className="p-5 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-dark-300 mb-1.5">Name</label>
+                <label className="block text-sm font-medium text-neutral-300 mb-1.5">Name</label>
                 <input type="text" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required className="input-field" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-dark-300 mb-1.5">Email</label>
+                <label className="block text-sm font-medium text-neutral-300 mb-1.5">Email</label>
                 <input type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} required className="input-field" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-dark-300 mb-1.5">Role</label>
+                <label className="block text-sm font-medium text-neutral-300 mb-1.5">Role</label>
                 <select value={formData.role} onChange={(e) => setFormData({ ...formData, role: e.target.value })} required className="input-field">
                   <option value="PARTICIPANT">Participant</option>
                   <option value="JUDGE">Judge</option>
                   <option value="ADMIN">Admin</option>
                 </select>
               </div>
-              <div className="pt-4 flex justify-end space-x-3">
+              <div className="pt-2 flex justify-end gap-2">
                 <button type="button" onClick={() => setEditModalOpen(false)} className="btn-secondary">Cancel</button>
                 <button type="submit" className="btn-primary">Save Changes</button>
               </div>
@@ -188,21 +181,21 @@ const AdminParticipants = () => {
 
       {/* Change Password Modal */}
       {pwdModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-          <div className="bg-dark-900 border border-dark-700 rounded-xl w-full max-w-md shadow-2xl overflow-hidden">
-            <div className="flex justify-between items-center p-6 border-b border-dark-700">
-              <h3 className="text-xl font-bold text-white">Change Password</h3>
-              <button onClick={() => setPwdModalOpen(false)} className="text-dark-400 hover:text-white transition-colors">
-                <HiOutlineX className="w-6 h-6" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+          <div className="bg-neutral-900 border border-neutral-800 rounded-lg w-full max-w-md overflow-hidden">
+            <div className="flex justify-between items-center px-5 py-4 border-b border-neutral-800">
+              <h3 className="text-base font-semibold text-white">Change Password</h3>
+              <button onClick={() => setPwdModalOpen(false)} className="text-neutral-500 hover:text-white transition-colors">
+                <X className="w-5 h-5" />
               </button>
             </div>
-            <form onSubmit={handlePwdSubmit} className="p-6 space-y-4">
-              <p className="text-sm text-dark-300 mb-4">You are changing the password for <strong className="text-white">{selectedUser?.name}</strong>.</p>
+            <form onSubmit={handlePwdSubmit} className="p-5 space-y-4">
+              <p className="text-sm text-neutral-400">Changing password for <strong className="text-white">{selectedUser?.name}</strong>.</p>
               <div>
-                <label className="block text-sm font-medium text-dark-300 mb-1.5">New Password</label>
+                <label className="block text-sm font-medium text-neutral-300 mb-1.5">New Password</label>
                 <input type="password" value={pwdData.newPassword} onChange={(e) => setPwdData({ newPassword: e.target.value })} required minLength={6} className="input-field" />
               </div>
-              <div className="pt-4 flex justify-end space-x-3">
+              <div className="pt-2 flex justify-end gap-2">
                 <button type="button" onClick={() => setPwdModalOpen(false)} className="btn-secondary">Cancel</button>
                 <button type="submit" className="btn-primary">Change Password</button>
               </div>
@@ -210,7 +203,6 @@ const AdminParticipants = () => {
           </div>
         </div>
       )}
-
     </div>
   );
 };

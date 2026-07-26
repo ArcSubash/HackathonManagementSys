@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { hackathonAPI } from '../../api/hackathonService';
 import { useAuth } from '../../context/AuthContext';
-import { HiOutlineCalendar, HiOutlineUserGroup, HiOutlineClock } from 'react-icons/hi';
+import { Calendar, Users, Clock } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { getDynamicStatus, getStatusColor } from '../../utils/statusUtils';
 
 const HackathonDetail = () => {
   const { id } = useParams();
@@ -28,7 +29,7 @@ const HackathonDetail = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-2 border-neutral-700 border-t-white"></div>
       </div>
     );
   }
@@ -36,53 +37,61 @@ const HackathonDetail = () => {
   if (!hackathon) {
     return <div className="text-white text-center py-20">Hackathon not found</div>;
   }
+  
+  const currentStatus = getDynamicStatus(hackathon);
 
   return (
     <div className="space-y-6">
       <div className="card">
         <div className="flex justify-between items-start mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2">{hackathon.title}</h1>
-            <span className="bg-primary-500/20 text-primary-400 border border-primary-500/30 px-3 py-1 rounded-full text-xs font-semibold">
-              {hackathon.status}
+            <h1 className="text-2xl font-semibold text-white mb-2">{hackathon.title}</h1>
+            <span className={`text-xs px-2.5 py-1 rounded-full ${getStatusColor(currentStatus)}`}>
+              {currentStatus}
             </span>
           </div>
           {user?.role === 'ADMIN' && (
-            <Link to={`/admin/hackathons/${id}/edit`} className="btn-secondary">
+            <Link to={`/admin/hackathons/${id}/edit`} className="btn-secondary text-sm">
               Edit
             </Link>
           )}
         </div>
         
-        <p className="text-dark-300 text-lg mb-8 whitespace-pre-wrap">{hackathon.description}</p>
+        <p className="text-neutral-400 text-sm mb-6 whitespace-pre-wrap">{hackathon.description}</p>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="flex items-center space-x-3 text-dark-300">
-            <HiOutlineCalendar className="w-6 h-6 text-primary-400" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="flex items-center gap-3 text-neutral-400">
+            <Calendar className="w-4 h-4 text-neutral-500" />
             <div>
-              <p className="text-sm text-dark-400">Start Date</p>
-              <p className="font-medium">{new Date(hackathon.startDate).toLocaleDateString()}</p>
+              <p className="text-xs text-neutral-500">Start Date</p>
+              <p className="text-sm font-medium text-neutral-300">
+                {new Date(hackathon.startDate).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}
+              </p>
             </div>
           </div>
-          <div className="flex items-center space-x-3 text-dark-300">
-            <HiOutlineCalendar className="w-6 h-6 text-amber-400" />
+          <div className="flex items-center gap-3 text-neutral-400">
+            <Calendar className="w-4 h-4 text-neutral-500" />
             <div>
-              <p className="text-sm text-dark-400">End Date</p>
-              <p className="font-medium">{new Date(hackathon.endDate).toLocaleDateString()}</p>
+              <p className="text-xs text-neutral-500">End Date</p>
+              <p className="text-sm font-medium text-neutral-300">
+                {new Date(hackathon.endDate).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}
+              </p>
             </div>
           </div>
-          <div className="flex items-center space-x-3 text-dark-300">
-            <HiOutlineClock className="w-6 h-6 text-red-400" />
+          <div className="flex items-center gap-3 text-neutral-400">
+            <Clock className="w-4 h-4 text-neutral-500" />
             <div>
-              <p className="text-sm text-dark-400">Registration Deadline</p>
-              <p className="font-medium">{new Date(hackathon.registrationDeadline).toLocaleDateString()}</p>
+              <p className="text-xs text-neutral-500">Registration Deadline</p>
+              <p className="text-sm font-medium text-neutral-300">
+                {new Date(hackathon.registrationDeadline).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}
+              </p>
             </div>
           </div>
-          <div className="flex items-center space-x-3 text-dark-300">
-            <HiOutlineUserGroup className="w-6 h-6 text-blue-400" />
+          <div className="flex items-center gap-3 text-neutral-400">
+            <Users className="w-4 h-4 text-neutral-500" />
             <div>
-              <p className="text-sm text-dark-400">Max Team Size</p>
-              <p className="font-medium">{hackathon.maxTeamSize}</p>
+              <p className="text-xs text-neutral-500">Max Team Size</p>
+              <p className="text-sm font-medium text-neutral-300">{hackathon.maxTeamSize}</p>
             </div>
           </div>
         </div>

@@ -9,6 +9,7 @@ export const teamAPI = {
   getMyTeams: () => api.get('/teams/my-teams'),
   getMyTeamForHackathon: (hackathonId) => api.get(`/teams/my-team/${hackathonId}`),
   delete: (id) => api.delete(`/teams/${id}`),
+  removeMember: (teamId, memberId) => api.delete(`/teams/${teamId}/members/${memberId}`),
   inviteParticipant: (teamId, email) => api.post(`/teams/${teamId}/invite?email=${encodeURIComponent(email)}`),
   getMyInvitations: () => api.get('/teams/invitations'),
   acceptInvitation: (invitationId) => api.post(`/teams/invitations/${invitationId}/accept`),

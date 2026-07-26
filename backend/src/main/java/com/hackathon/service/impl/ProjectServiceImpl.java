@@ -64,6 +64,13 @@ public class ProjectServiceImpl implements ProjectService {
         Team team = teamRepository.findById(project.getTeamId())
                 .orElseThrow(() -> new ResourceNotFoundException("Team", "id", project.getTeamId()));
 
+        Hackathon hackathon = hackathonRepository.findById(project.getHackathonId())
+                .orElseThrow(() -> new ResourceNotFoundException("Hackathon", "id", project.getHackathonId()));
+
+        if (java.time.LocalDateTime.now().isAfter(hackathon.getEndDate())) {
+            throw new BadRequestException("Cannot modify project after hackathon end date");
+        }
+
         // Only team leader can edit
         if (!team.getLeaderId().equals(userId)) {
             throw new BadRequestException("Only the team leader can edit the project");
@@ -99,6 +106,13 @@ public class ProjectServiceImpl implements ProjectService {
 
         Team team = teamRepository.findById(project.getTeamId())
                 .orElseThrow(() -> new ResourceNotFoundException("Team", "id", project.getTeamId()));
+
+        Hackathon hackathon = hackathonRepository.findById(project.getHackathonId())
+                .orElseThrow(() -> new ResourceNotFoundException("Hackathon", "id", project.getHackathonId()));
+
+        if (java.time.LocalDateTime.now().isAfter(hackathon.getEndDate())) {
+            throw new BadRequestException("Cannot delete project after hackathon end date");
+        }
 
         if (!team.getLeaderId().equals(userId)) {
             throw new BadRequestException("Only the team leader can delete the project");
