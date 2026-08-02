@@ -70,7 +70,7 @@ const Leaderboard = () => {
                 <th className="px-5 py-3">Rank</th>
                 <th className="px-5 py-3">Project</th>
                 <th className="px-5 py-3">Team</th>
-                <th className="px-5 py-3">Score</th>
+                <th className="px-5 py-3">Average Score</th>
                 <th className="px-5 py-3">Reviews</th>
               </tr>
             </thead>
