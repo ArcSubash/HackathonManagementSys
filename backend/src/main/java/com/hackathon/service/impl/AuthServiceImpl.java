@@ -104,4 +104,32 @@ public class AuthServiceImpl implements AuthService {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new com.hackathon.exception.ResourceNotFoundException("User", "id", userId));
     }
+
+    @Override
+    public AuthResponse updateProfile(String userId, com.hackathon.dto.request.UpdateProfileRequest request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new com.hackathon.exception.ResourceNotFoundException("User", "id", userId));
+
+        if (request.getName() != null && !request.getName().trim().isEmpty()) {
+            user.setName(request.getName().trim());
+        }
+
+        if (request.getPassword() != null && !request.getPassword().trim().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
+
+        user = userRepository.save(user);
+
+        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
+        String token = jwtUtil.generateToken(userDetails, user.getId(), user.getRole().name());
+
+        return AuthResponse.builder()
+                .token(token)
+                .id(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .role(user.getRole())
+                .assignedHackathons(user.getAssignedHackathons())
+                .build();
+    }
 }

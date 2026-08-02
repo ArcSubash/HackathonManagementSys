@@ -18,4 +18,6 @@ public interface HackathonService {
     List<Hackathon> getAll();
 
     List<Hackathon> getByStatus(String status);
+
+    com.hackathon.dto.response.HackathonStatsResponse getHackathonStats(String hackathonId);
 }

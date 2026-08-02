@@ -4,6 +4,7 @@ import { hackathonAPI } from '../../api/hackathonService';
 import toast from 'react-hot-toast';
 import { useAuth } from '../../context/AuthContext';
 import { UserPlus, Check, X } from 'lucide-react';
+import { getDynamicStatus } from '../../utils/statusUtils';
 
 const ParticipantTeam = () => {
   const { user } = useAuth();
@@ -159,7 +160,7 @@ const ParticipantTeam = () => {
                 className="input-field"
               >
                 <option value="">Select Hackathon</option>
-                {activeHackathons.filter(h => new Date(h.registrationDeadline) > new Date()).map(h => (
+                {activeHackathons.filter(h => getDynamicStatus(h) !== 'ENDED').map(h => (
                   <option key={h.id} value={h.id}>{h.title}</option>
                 ))}
               </select>

@@ -10,6 +10,7 @@ const HackathonDetail = () => {
   const { id } = useParams();
   const { user } = useAuth();
   const [hackathon, setHackathon] = useState(null);
+  const [stats, setStats] = useState({ totalTeams: 0, totalParticipants: 0 });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -17,6 +18,11 @@ const HackathonDetail = () => {
       try {
         const res = await hackathonAPI.getById(id);
         setHackathon(res.data.data);
+        
+        if (user?.role === 'ADMIN' || user?.role === 'JUDGE') {
+          const statsRes = await hackathonAPI.getStats(id);
+          setStats(statsRes.data.data);
+        }
       } catch (err) {
         toast.error('Failed to load hackathon details');
       } finally {
@@ -58,6 +64,19 @@ const HackathonDetail = () => {
         </div>
         
         <p className="text-neutral-400 text-sm mb-6 whitespace-pre-wrap">{hackathon.description}</p>
+
+        {(user?.role === 'ADMIN' || user?.role === 'JUDGE') && (
+          <div className="flex flex-col sm:flex-row gap-4 mb-6">
+            <div className="bg-neutral-800/50 p-6 rounded-xl shadow-sm border border-neutral-700/50 flex-1">
+              <h3 className="text-sm font-medium text-neutral-400 mb-1">Total Teams</h3>
+              <p className="text-3xl font-bold text-white">{stats.totalTeams}</p>
+            </div>
+            <div className="bg-neutral-800/50 p-6 rounded-xl shadow-sm border border-neutral-700/50 flex-1">
+              <h3 className="text-sm font-medium text-neutral-400 mb-1">Total Participants</h3>
+              <p className="text-3xl font-bold text-blue-400">{stats.totalParticipants}</p>
+            </div>
+          </div>
+        )}
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="flex items-center gap-3 text-neutral-400">

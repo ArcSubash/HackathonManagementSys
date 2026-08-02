@@ -7,6 +7,7 @@
   @layer base {
     body {
       @apply bg-neutral-950 text-neutral-200 font-sans antialiased;
+      color-scheme: dark;
     }
   }
 

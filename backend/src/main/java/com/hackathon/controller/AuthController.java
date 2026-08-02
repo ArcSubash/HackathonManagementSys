@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PutMapping;
+import com.hackathon.dto.request.UpdateProfileRequest;
+import com.hackathon.security.JwtUtil;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthService authService;
+    private final JwtUtil jwtUtil;
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<AuthResponse>> register(@Valid @RequestBody RegisterRequest request) {
@@ -38,5 +42,17 @@ public class AuthController {
     public ResponseEntity<ApiResponse<com.hackathon.model.User>> getCurrentUser(@org.springframework.web.bind.annotation.RequestHeader("Authorization") String authHeader) {
         com.hackathon.model.User user = authService.getCurrentUser(authHeader);
         return ResponseEntity.ok(ApiResponse.success("User retrieved successfully", user));
+    }
+
+    @PutMapping("/profile")
+    public ResponseEntity<ApiResponse<AuthResponse>> updateProfile(
+            @Valid @RequestBody UpdateProfileRequest request,
+            @org.springframework.web.bind.annotation.RequestHeader("Authorization") String authHeader) {
+        
+        String token = authHeader.replace("Bearer ", "");
+        String userId = jwtUtil.extractClaim(token, claims -> claims.get("userId", String.class));
+        
+        AuthResponse response = authService.updateProfile(userId, request);
+        return ResponseEntity.ok(ApiResponse.success("Profile updated successfully", response));
     }
 }

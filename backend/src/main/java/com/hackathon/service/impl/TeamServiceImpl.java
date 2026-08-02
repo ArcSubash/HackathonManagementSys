@@ -192,12 +192,16 @@ public class TeamServiceImpl implements TeamService {
         Hackathon hackathon = hackathonRepository.findById(team.getHackathonId())
                 .orElseThrow(() -> new ResourceNotFoundException("Hackathon", "id", team.getHackathonId()));
 
+        if (hackathon.getEndDate() != null && LocalDateTime.now().isAfter(hackathon.getEndDate())) {
+            throw new BadRequestException("Hackathon has already ended. Cannot invite new members.");
+        }
+
         if (team.getMemberIds().size() >= hackathon.getMaxTeamSize()) {
             throw new BadRequestException("Team has reached the maximum size of " + hackathon.getMaxTeamSize());
         }
 
         User invitee = userRepository.findByEmail(inviteeEmail)
-                .orElseThrow(() -> new BadRequestException("No user found with this email"));
+                .orElseThrow(() -> new BadRequestException("no user found"));
 
         if (invitee.getRole() != Role.PARTICIPANT) {
             throw new BadRequestException("You can only invite participants");
@@ -249,6 +253,10 @@ public class TeamServiceImpl implements TeamService {
         String hackathonId = team.getHackathonId();
         Hackathon hackathon = hackathonRepository.findById(hackathonId)
                 .orElseThrow(() -> new ResourceNotFoundException("Hackathon", "id", hackathonId));
+
+        if (hackathon.getEndDate() != null && LocalDateTime.now().isAfter(hackathon.getEndDate())) {
+            throw new BadRequestException("Hackathon has already ended. Invitation is no longer valid.");
+        }
 
         if (team.getMemberIds().size() >= hackathon.getMaxTeamSize()) {
             throw new BadRequestException("Team has reached the maximum size of " + hackathon.getMaxTeamSize());

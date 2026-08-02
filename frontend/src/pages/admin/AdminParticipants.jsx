@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 const AdminParticipants = () => {
   const [participants, setParticipants] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [pwdModalOpen, setPwdModalOpen] = useState(false);
@@ -75,11 +76,30 @@ const AdminParticipants = () => {
     }
   };
 
+  const filteredParticipants = participants.filter(user => {
+    const q = searchQuery.toLowerCase();
+    return (
+      user.name.toLowerCase().includes(q) ||
+      user.email.toLowerCase().includes(q) ||
+      user.id.toLowerCase().includes(q)
+    );
+  });
+
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-semibold text-white">Participants</h1>
         <p className="text-neutral-500 text-sm mt-1">Manage all registered participants</p>
+      </div>
+
+      <div className="mb-6">
+        <input
+          type="text"
+          placeholder="Search by name, email, or ID..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="input-field max-w-md"
+        />
       </div>
 
       <div className="card">
@@ -105,7 +125,7 @@ const AdminParticipants = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-neutral-800">
-                {participants.map((user) => (
+                {filteredParticipants.map((user) => (
                   <tr key={user.id} className="hover:bg-neutral-900/50 transition-colors">
                     <td className="py-3">
                       <div className="flex items-center gap-2.5">
@@ -137,6 +157,13 @@ const AdminParticipants = () => {
                     </td>
                   </tr>
                 ))}
+                {filteredParticipants.length === 0 && (
+                  <tr>
+                    <td colSpan="4" className="text-center py-8 text-neutral-500 text-sm border-dashed">
+                      No participants match your search criteria.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

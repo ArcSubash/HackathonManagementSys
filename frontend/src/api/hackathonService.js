@@ -7,4 +7,5 @@ export const hackathonAPI = {
   create: (data) => api.post('/hackathons', data),
   update: (id, data) => api.put(`/hackathons/${id}`, data),
   delete: (id) => api.delete(`/hackathons/${id}`),
+  getStats: (id) => api.get(`/hackathons/${id}/stats`),
 };

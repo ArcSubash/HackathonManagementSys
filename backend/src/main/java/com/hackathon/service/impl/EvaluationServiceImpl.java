@@ -4,12 +4,14 @@ import com.hackathon.dto.request.ScoreRequest;
 import com.hackathon.dto.response.LeaderboardEntry;
 import com.hackathon.exception.BadRequestException;
 import com.hackathon.exception.ResourceNotFoundException;
+import com.hackathon.model.Hackathon;
 import com.hackathon.model.Project;
 import com.hackathon.model.Score;
 import com.hackathon.model.User;
 import com.hackathon.repository.ProjectRepository;
 import com.hackathon.repository.ScoreRepository;
 import com.hackathon.repository.UserRepository;
+import com.hackathon.repository.HackathonRepository;
 import com.hackathon.service.EvaluationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,7 @@ public class EvaluationServiceImpl implements EvaluationService {
     private final ScoreRepository scoreRepository;
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
+    private final HackathonRepository hackathonRepository;
 
     @Override
     public Score submitScore(ScoreRequest request, String judgeId) {
@@ -81,6 +84,13 @@ public class EvaluationServiceImpl implements EvaluationService {
 
     @Override
     public List<LeaderboardEntry> getLeaderboard(String hackathonId) {
+        Hackathon hackathon = hackathonRepository.findById(hackathonId)
+                .orElseThrow(() -> new ResourceNotFoundException("Hackathon", "id", hackathonId));
+
+        if (hackathon.getEndDate() != null && java.time.LocalDateTime.now().isBefore(hackathon.getEndDate())) {
+            throw new BadRequestException("Leaderboard is only available after the hackathon has ended");
+        }
+
         List<Project> projects = projectRepository.findByHackathonId(hackathonId);
         List<Score> allScores = scoreRepository.findByHackathonId(hackathonId);
 

@@ -12,6 +12,7 @@ const JudgeProjects = () => {
   const [projects, setProjects] = useState([]);
   const [evaluatedProjectIds, setEvaluatedProjectIds] = useState(new Set());
   const [endedHackathonIds, setEndedHackathonIds] = useState(new Set());
+  const [selectedHackathonId, setSelectedHackathonId] = useState('ALL');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -33,6 +34,7 @@ const JudgeProjects = () => {
               allProjects.push(...r.value.data.data);
             }
           });
+          allProjects.sort((a, b) => a.hackathonTitle.localeCompare(b.hackathonTitle));
           setProjects(allProjects);
           
           const endedIds = new Set();
@@ -68,18 +70,39 @@ const JudgeProjects = () => {
     );
   }
 
+  const filteredProjects = selectedHackathonId === 'ALL' 
+    ? projects 
+    : projects.filter(p => p.hackathonId === selectedHackathonId);
+
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold text-white">Assigned Projects</h1>
-        <p className="text-neutral-500 text-sm mt-1">Evaluate projects submitted for your assigned hackathons</p>
+      <div className="flex justify-between items-end">
+        <div>
+          <h1 className="text-2xl font-semibold text-white">Assigned Projects</h1>
+          <p className="text-neutral-500 text-sm mt-1">Evaluate projects submitted for your assigned hackathons</p>
+        </div>
+        {projects.length > 0 && (
+          <div className="w-56">
+            <select 
+              className="input-field" 
+              value={selectedHackathonId} 
+              onChange={(e) => setSelectedHackathonId(e.target.value)}
+            >
+              <option value="ALL">All Hackathons</option>
+              {Array.from(new Set(projects.map(p => p.hackathonId))).map(id => {
+                const hackathon = projects.find(p => p.hackathonId === id);
+                return <option key={id} value={id}>{hackathon.hackathonTitle}</option>;
+              })}
+            </select>
+          </div>
+        )}
       </div>
       
-      {projects.length === 0 ? (
+      {filteredProjects.length === 0 ? (
         <div className="card text-center py-10 text-neutral-500 text-sm">No projects to evaluate right now.</div>
       ) : (
         <div className="space-y-2">
-          {projects.map(p => (
+          {filteredProjects.map(p => (
             <div key={p.id} className="card flex justify-between items-center">
                <div>
                  <h3 className="text-sm font-medium text-white">{p.title}</h3>

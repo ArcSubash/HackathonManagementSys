@@ -48,7 +48,7 @@ const AdminTeams = () => {
                   <th className="pb-3 font-medium">Team Name</th>
                   <th className="pb-3 font-medium">Leader</th>
                   <th className="pb-3 font-medium">Members</th>
-                  <th className="pb-3 font-medium">Hackathon ID</th>
+                  <th className="pb-3 font-medium">Hackathon</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-neutral-800">
@@ -76,9 +76,12 @@ const AdminTeams = () => {
                       </div>
                     </td>
                     <td className="py-3">
-                      <div className="flex items-center gap-1.5 text-neutral-500">
-                        <Zap className="w-3.5 h-3.5" />
-                        <span className="font-mono text-xs">{team.hackathonId}</span>
+                      <div className="flex items-center gap-1.5 text-neutral-300 font-medium">
+                        <Zap className="w-3.5 h-3.5 text-blue-500" />
+                        <span>{team.hackathonTitle || 'Unknown Hackathon'}</span>
+                      </div>
+                      <div className="text-neutral-600 text-xs mt-1 ml-5 font-mono">
+                        {team.hackathonId}
                       </div>
                     </td>
                   </tr>

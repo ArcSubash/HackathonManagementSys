@@ -101,6 +101,9 @@ const ParticipantProject = () => {
     try {
       await projectAPI.delete(projectId);
       toast.success('Project deleted');
+      if (editingProjectId === projectId) {
+        handleCancelEdit();
+      }
       fetchData();
     } catch (err) {
       toast.error(err.response?.data?.message || 'Failed to delete project');
@@ -136,9 +139,18 @@ const ParticipantProject = () => {
           </div>
           <select value={formData.teamId} onChange={handleTeamChange} required className="input-field" disabled={editingProjectId !== null}>
             <option value="">Select Team (You must be leader)</option>
-            {teams.filter(t => t.leaderId === user.id && (!endedHackathonIds.has(t.hackathonId) || editingProjectId !== null)).map(t => (
-              <option key={t.id} value={t.id}>{t.teamName} - {t.hackathonTitle}</option>
-            ))}
+            {teams.filter(t => 
+              t.leaderId === user.id && 
+              (!endedHackathonIds.has(t.hackathonId) || editingProjectId !== null)
+            ).map(t => {
+              const hasProject = projects.some(p => p.teamId === t.id);
+              const isDisabled = hasProject && editingProjectId === null;
+              return (
+                <option key={t.id} value={t.id} disabled={isDisabled}>
+                  {t.teamName} - {t.hackathonTitle} {hasProject ? '(Already submitted)' : ''}
+                </option>
+              );
+            })}
           </select>
           <input name="title" value={formData.title} onChange={e=>setFormData({...formData, title: e.target.value})} placeholder="Project Title" required className="input-field" />
           <textarea name="description" value={formData.description} onChange={e=>setFormData({...formData, description: e.target.value})} placeholder="Description" required rows="4" className="input-field" />

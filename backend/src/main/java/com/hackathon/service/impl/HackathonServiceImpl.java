@@ -6,7 +6,10 @@ import com.hackathon.exception.ResourceNotFoundException;
 import com.hackathon.model.Hackathon;
 import com.hackathon.model.HackathonStatus;
 import com.hackathon.repository.HackathonRepository;
+import com.hackathon.repository.TeamRepository;
 import com.hackathon.service.HackathonService;
+import com.hackathon.dto.response.HackathonStatsResponse;
+import com.hackathon.model.Team;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,7 @@ import java.util.List;
 public class HackathonServiceImpl implements HackathonService {
 
     private final HackathonRepository hackathonRepository;
+    private final TeamRepository teamRepository;
 
     @Override
     public Hackathon create(HackathonRequest request, String userId) {
@@ -87,5 +91,23 @@ public class HackathonServiceImpl implements HackathonService {
         } catch (IllegalArgumentException e) {
             throw new BadRequestException("Invalid status: " + status);
         }
+    }
+
+    @Override
+    public HackathonStatsResponse getHackathonStats(String hackathonId) {
+        // Verify hackathon exists
+        getById(hackathonId);
+
+        List<Team> teams = teamRepository.findByHackathonId(hackathonId);
+        long totalParticipants = 0;
+        
+        for (Team team : teams) {
+            totalParticipants += (team.getMemberIds() != null ? team.getMemberIds().size() : 0);
+        }
+        
+        return HackathonStatsResponse.builder()
+                .totalTeams(teams.size())
+                .totalParticipants(totalParticipants)
+                .build();
     }
 }

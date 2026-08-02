@@ -33,7 +33,8 @@ const Leaderboard = () => {
         const res = await leaderboardAPI.getLeaderboard(selectedHackathon);
         setLeaderboard(res.data.data || []);
       } catch (err) {
-        toast.error('Failed to load leaderboard');
+        setLeaderboard([]);
+        toast.error(err.response?.data?.message || 'Failed to load leaderboard');
       }
     };
     fetchLeaderboard();

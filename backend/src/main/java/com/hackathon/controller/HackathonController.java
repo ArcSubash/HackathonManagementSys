@@ -2,6 +2,7 @@ package com.hackathon.controller;
 
 import com.hackathon.dto.request.HackathonRequest;
 import com.hackathon.dto.response.ApiResponse;
+import com.hackathon.dto.response.HackathonStatsResponse;
 import com.hackathon.model.Hackathon;
 import com.hackathon.security.JwtUtil;
 import com.hackathon.service.HackathonService;
@@ -38,6 +39,13 @@ public class HackathonController {
     public ResponseEntity<ApiResponse<List<Hackathon>>> getByStatus(@PathVariable String status) {
         List<Hackathon> hackathons = hackathonService.getByStatus(status);
         return ResponseEntity.ok(ApiResponse.success("Hackathons by status retrieved", hackathons));
+    }
+
+    @GetMapping("/{id}/stats")
+    @PreAuthorize("hasAnyRole('ADMIN', 'JUDGE')")
+    public ResponseEntity<ApiResponse<HackathonStatsResponse>> getHackathonStats(@PathVariable String id) {
+        HackathonStatsResponse stats = hackathonService.getHackathonStats(id);
+        return ResponseEntity.ok(ApiResponse.success("Hackathon stats retrieved", stats));
     }
 
     @PostMapping

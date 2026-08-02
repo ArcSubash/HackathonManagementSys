@@ -11,4 +11,6 @@ public interface AuthService {
     AuthResponse login(LoginRequest request);
 
     com.hackathon.model.User getCurrentUser(String token);
+
+    AuthResponse updateProfile(String userId, com.hackathon.dto.request.UpdateProfileRequest request);
 }

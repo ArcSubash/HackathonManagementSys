@@ -23,6 +23,7 @@ import AdminProjects from '../pages/admin/AdminProjects';
 import ParticipantHackathons from '../pages/participant/ParticipantHackathons';
 import ParticipantTeam from '../pages/participant/ParticipantTeam';
 import ParticipantProject from '../pages/participant/ParticipantProject';
+import ParticipantProfile from '../pages/participant/ParticipantProfile';
 
 // Judge Pages
 import JudgeProjects from '../pages/judge/JudgeProjects';
@@ -73,6 +74,7 @@ const AppRouter = () => {
             <Route path="team" element={<ParticipantTeam />} />
             <Route path="project" element={<ParticipantProject />} />
             <Route path="results" element={<Leaderboard />} />
+            <Route path="profile" element={<ParticipantProfile />} />
           </Route>
 
           {/* Judge Routes */}
