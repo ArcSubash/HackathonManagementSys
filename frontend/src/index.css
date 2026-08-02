@@ -1,52 +1,51 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
 
-@layer base {
-  body {
-    @apply bg-neutral-950 text-neutral-200 font-sans antialiased;
-    color-scheme: dark;
-  }
-}
-
-@layer components {
-  .btn-primary {
-    @apply bg-white text-black font-medium py-2 px-4 rounded-md text-sm transition-colors duration-150 hover:bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-white/40 focus:ring-offset-2 focus:ring-offset-neutral-950 disabled:opacity-40 disabled:cursor-not-allowed;
+  @layer base {
+    body {
+      @apply bg-neutral-950 text-neutral-200 font-sans antialiased;
+    }
   }
 
-  .btn-secondary {
-    @apply bg-transparent text-neutral-300 font-medium py-2 px-4 rounded-md text-sm border border-neutral-700 transition-colors duration-150 hover:bg-neutral-800 hover:text-white hover:border-neutral-600 focus:outline-none focus:ring-2 focus:ring-neutral-500/40;
+  @layer components {
+    .btn-primary {
+      @apply bg-white text-black font-medium py-2 px-4 rounded-md text-sm transition-colors duration-150 hover:bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-white/40 focus:ring-offset-2 focus:ring-offset-neutral-950 disabled:opacity-40 disabled:cursor-not-allowed;
+    }
+
+    .btn-secondary {
+      @apply bg-transparent text-neutral-300 font-medium py-2 px-4 rounded-md text-sm border border-neutral-700 transition-colors duration-150 hover:bg-neutral-800 hover:text-white hover:border-neutral-600 focus:outline-none focus:ring-2 focus:ring-neutral-500/40;
+    }
+
+    .btn-danger {
+      @apply bg-red-600 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors duration-150 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500/40 focus:ring-offset-2 focus:ring-offset-neutral-950;
+    }
+
+    .input-field {
+      @apply w-full bg-neutral-950 border border-neutral-700 text-neutral-100 placeholder-neutral-500 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600/50 focus:border-blue-600 transition-colors duration-150;
+    }
+
+    .card {
+      @apply bg-neutral-900 border border-neutral-800 rounded-lg p-5;
+    }
   }
 
-  .btn-danger {
-    @apply bg-red-600 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors duration-150 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500/40 focus:ring-offset-2 focus:ring-offset-neutral-950;
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
   }
 
-  .input-field {
-    @apply w-full bg-neutral-950 border border-neutral-700 text-neutral-100 placeholder-neutral-500 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600/50 focus:border-blue-600 transition-colors duration-150;
+  ::-webkit-scrollbar-track {
+    background: #0a0a0a;
   }
 
-  .card {
-    @apply bg-neutral-900 border border-neutral-800 rounded-lg p-5;
+  ::-webkit-scrollbar-thumb {
+    background: #404040;
+    border-radius: 3px;
   }
-}
 
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: #0a0a0a;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #404040;
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #525252;
-}
+  ::-webkit-scrollbar-thumb:hover {
+    background: #525252;
+  }
